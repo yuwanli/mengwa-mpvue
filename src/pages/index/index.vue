@@ -1,134 +1,395 @@
 <template>
-  <div class="container">
-
-    <div class="userinfo" @click="bindViewTap">
-      <img class="userinfo-avatar" v-if="userInfo.avatarUrl" :src="userInfo.avatarUrl" background-size="cover" />
-      <img class="userinfo-avatar" src="/static/images/user.png" background-size="cover" />
-
-      <div class="userinfo-nickname">
-        <card :text="userInfo.nickName"></card>
+  <scroll-view class="container">
+    <div class="wrapper">
+      <img class="top" src="/static/images/index__top.png">
+      <div class="select">
+        <p class="select__base">这里是小区名字</p>
+        <p class="select__btn">切换</p>
       </div>
     </div>
-
-    <div class="usermotto">
-      <div class="user-motto">
-        <card :text="motto"></card>
+    <div class="tab-wrapper">
+      <div class="tab" :data-active="activeIndex">
+        <div class="tab__item" @click="tabClick(0)">我的关注</div>
+        <div class="tab__item" @click="tabClick(1)">小区婴童闲置</div>
+        <div class="tab__item" @click="tabClick(2)">我的闲置</div>
       </div>
+      <mw-swiper :active-index="activeIndex" @swiperChange="swiperChange"></mw-swiper>
+      <!-- <swiper class="swiper" :current="active" @change="swiperChange" :indicator-dots="false">
+        <mw-swiper-item :list-data="focusData"></mw-swiper-item>
+        <mw-swiper-item :list-data="mainData"></mw-swiper-item>
+        <mw-swiper-item :list-data="myData"></mw-swiper-item>
+      </swiper> -->
     </div>
-
-    <form class="form-container">
-      <input type="text" class="form-control" :value="motto" placeholder="v-model" />
-      <input type="text" class="form-control" v-model="motto" placeholder="v-model" />
-      <input type="text" class="form-control" v-model.lazy="motto" placeholder="v-model.lazy" />
-    </form>
-
-    <a href="/pages/counter/main" class="counter">去往Vuex示例页面</a>
-
-    <div class="all">
-        <div class="left">
-        </div>
-        <div class="right">
-        </div>
-    </div>
-  </div>
+  </scroll-view>
 </template>
 
 <script>
-import card from '@/components/card'
+import mwSwiper from '@/components/mw-swiper.vue'
 import base from '@/mixins/base.js'
 
 export default {
   data () {
     return {
-      motto: 'Hello miniprograme',
-      userInfo: {
-        nickName: 'mpvue',
-        avatarUrl: 'http://mpvue.com/assets/logo.png'
-      }
+      activeIndex: 0,
+      focusData: [
+        {
+          img: '/static/images/index__demo3.png',
+          title: '1低价转让宝宝二手衣服九成新的，低价转让宝宝二手衣低价转让宝宝二手衣',
+          avatar: '/static/images/index__avatar.png',
+          name: '小草莓外婆',
+          liked: 0,
+          id: 1
+        },
+        {
+          img: '/static/images/index__demo2.png',
+          title: '2低价转让宝宝二手衣服九成新的，低价转让宝宝二手衣低价转让宝宝二手衣',
+          avatar: '/static/images/index__avatar.png',
+          name: '小草莓外婆',
+          liked: 0,
+          id: 1
+        },
+        {
+          img: '/static/images/index__demo1.png',
+          title: '3低价转让宝宝二手衣服九成新的，低价转让宝宝二手衣低价转让宝宝二手衣',
+          avatar: '/static/images/index__avatar.png',
+          name: '小草莓外婆',
+          liked: 0,
+          id: 1
+        },
+        {
+          img: '/static/images/index__demo2.png',
+          title: '4低价转让宝宝二手衣服九成新的，低价转让宝宝二手衣低价转让宝宝二手衣',
+          avatar: '/static/images/index__avatar.png',
+          name: '小草莓外婆',
+          liked: 0,
+          id: 1
+        },
+        {
+          img: '/static/images/index__demo3.png',
+          title: '5低价转让宝宝二手衣服九成新的，低价转让宝宝二手衣低价转让宝宝二手衣',
+          avatar: '/static/images/index__avatar.png',
+          name: '小草莓外婆',
+          liked: 0,
+          id: 1
+        },
+        {
+          img: '/static/images/index__demo2.png',
+          title: '6低价转让宝宝二手衣服九成新的，低价转让宝宝二手衣低价转让宝宝二手衣',
+          avatar: '/static/images/index__avatar.png',
+          name: '小草莓外婆',
+          liked: 0,
+          id: 1
+        },
+        {
+          img: '/static/images/index__demo1.png',
+          title: '7低价转让宝宝二手衣服九成新的，低价转让宝宝二手衣低价转让宝宝二手衣',
+          avatar: '/static/images/index__avatar.png',
+          name: '小草莓外婆',
+          liked: 1,
+          id: 1
+        },
+        {
+          img: '/static/images/index__demo3.png',
+          title: '8低价转让宝宝二手衣服九成新的，低价转让宝宝二手衣低价转让宝宝二手衣',
+          avatar: '/static/images/index__avatar.png',
+          name: '小草莓外婆',
+          liked: 1,
+          id: 1
+        },
+        {
+          img: '/static/images/index__demo3.png',
+          title: '9低价转让宝宝二手衣服九成新的，低价转让宝宝二手衣低价转让宝宝二手衣',
+          avatar: '/static/images/index__avatar.png',
+          name: '小草莓外婆',
+          liked: 1,
+          id: 1
+        }
+      ],
+      mainData: [
+        {
+          img: '/static/images/index__demo3.png',
+          title: '1低价转让宝宝二手衣服九成新的，低价转让宝宝二手衣低价转让宝宝二手衣',
+          avatar: '/static/images/index__avatar.png',
+          name: '小草莓外婆',
+          liked: 0,
+          id: 1
+        },
+        {
+          img: '/static/images/index__demo2.png',
+          title: '2低价转让宝宝二手衣服九成新的，低价转让宝宝二手衣低价转让宝宝二手衣',
+          avatar: '/static/images/index__avatar.png',
+          name: '小草莓外婆',
+          liked: 0,
+          id: 1
+        },
+        {
+          img: '/static/images/index__demo1.png',
+          title: '3低价转让宝宝二手衣服九成新的，低价转让宝宝二手衣低价转让宝宝二手衣',
+          avatar: '/static/images/index__avatar.png',
+          name: '小草莓外婆',
+          liked: 0,
+          id: 1
+        },
+        {
+          img: '/static/images/index__demo2.png',
+          title: '4低价转让宝宝二手衣服九成新的，低价转让宝宝二手衣低价转让宝宝二手衣',
+          avatar: '/static/images/index__avatar.png',
+          name: '小草莓外婆',
+          liked: 0,
+          id: 1
+        },
+        {
+          img: '/static/images/index__demo3.png',
+          title: '5低价转让宝宝二手衣服九成新的，低价转让宝宝二手衣低价转让宝宝二手衣',
+          avatar: '/static/images/index__avatar.png',
+          name: '小草莓外婆',
+          liked: 0,
+          id: 1
+        },
+        {
+          img: '/static/images/index__demo2.png',
+          title: '6低价转让宝宝二手衣服九成新的，低价转让宝宝二手衣低价转让宝宝二手衣',
+          avatar: '/static/images/index__avatar.png',
+          name: '小草莓外婆',
+          liked: 0,
+          id: 1
+        },
+        {
+          img: '/static/images/index__demo1.png',
+          title: '7低价转让宝宝二手衣服九成新的，低价转让宝宝二手衣低价转让宝宝二手衣',
+          avatar: '/static/images/index__avatar.png',
+          name: '小草莓外婆',
+          liked: 1,
+          id: 1
+        },
+        {
+          img: '/static/images/index__demo3.png',
+          title: '8低价转让宝宝二手衣服九成新的，低价转让宝宝二手衣低价转让宝宝二手衣',
+          avatar: '/static/images/index__avatar.png',
+          name: '小草莓外婆',
+          liked: 1,
+          id: 1
+        },
+        {
+          img: '/static/images/index__demo3.png',
+          title: '9低价转让宝宝二手衣服九成新的，低价转让宝宝二手衣低价转让宝宝二手衣',
+          avatar: '/static/images/index__avatar.png',
+          name: '小草莓外婆',
+          liked: 1,
+          id: 1
+        }
+      ],
+      myData: [
+        {
+          img: '/static/images/index__demo3.png',
+          title: '1低价转让宝宝二手衣服九成新的，低价转让宝宝二手衣低价转让宝宝二手衣',
+          avatar: '/static/images/index__avatar.png',
+          name: '小草莓外婆',
+          liked: 0,
+          id: 1
+        },
+        {
+          img: '/static/images/index__demo2.png',
+          title: '2低价转让宝宝二手衣服九成新的，低价转让宝宝二手衣低价转让宝宝二手衣',
+          avatar: '/static/images/index__avatar.png',
+          name: '小草莓外婆',
+          liked: 0,
+          id: 1
+        },
+        {
+          img: '/static/images/index__demo1.png',
+          title: '3低价转让宝宝二手衣服九成新的，低价转让宝宝二手衣低价转让宝宝二手衣',
+          avatar: '/static/images/index__avatar.png',
+          name: '小草莓外婆',
+          liked: 0,
+          id: 1
+        },
+        {
+          img: '/static/images/index__demo2.png',
+          title: '4低价转让宝宝二手衣服九成新的，低价转让宝宝二手衣低价转让宝宝二手衣',
+          avatar: '/static/images/index__avatar.png',
+          name: '小草莓外婆',
+          liked: 0,
+          id: 1
+        },
+        {
+          img: '/static/images/index__demo3.png',
+          title: '5低价转让宝宝二手衣服九成新的，低价转让宝宝二手衣低价转让宝宝二手衣',
+          avatar: '/static/images/index__avatar.png',
+          name: '小草莓外婆',
+          liked: 0,
+          id: 1
+        },
+        {
+          img: '/static/images/index__demo2.png',
+          title: '6低价转让宝宝二手衣服九成新的，低价转让宝宝二手衣低价转让宝宝二手衣',
+          avatar: '/static/images/index__avatar.png',
+          name: '小草莓外婆',
+          liked: 0,
+          id: 1
+        },
+        {
+          img: '/static/images/index__demo1.png',
+          title: '7低价转让宝宝二手衣服九成新的，低价转让宝宝二手衣低价转让宝宝二手衣',
+          avatar: '/static/images/index__avatar.png',
+          name: '小草莓外婆',
+          liked: 1,
+          id: 1
+        },
+        {
+          img: '/static/images/index__demo3.png',
+          title: '8低价转让宝宝二手衣服九成新的，低价转让宝宝二手衣低价转让宝宝二手衣',
+          avatar: '/static/images/index__avatar.png',
+          name: '小草莓外婆',
+          liked: 1,
+          id: 1
+        },
+        {
+          img: '/static/images/index__demo3.png',
+          title: '9低价转让宝宝二手衣服九成新的，低价转让宝宝二手衣低价转让宝宝二手衣',
+          avatar: '/static/images/index__avatar.png',
+          name: '小草莓外婆',
+          liked: 1,
+          id: 1
+        }
+      ]
     }
   },
 
   components: {
-    card
+    mwSwiper
   },
 
   mixins: [base],
 
-  onShow () {
-    console.log('onshow')
-  },
-
   methods: {
-    bindViewTap () {
-      const url = '../add/main'
-      wx.redirectTo({ url })
-      // if (mpvuePlatform === 'wx') {
-      //   mpvue.switchTab({ url })
-      // } else {
-      //   mpvue.navigateTo({ url })
-      // }
+    swiperChange (index) {
+      this.activeIndex = index
     },
-    clickHandle (ev) {
-      console.log('clickHandle:', ev)
-      // throw {message: 'custom test'}
+    tabClick (index) {
+      this.activeIndex = index
+    },
+    scrolltolower () {
+      console.log('111')
     }
   },
 
   created () {
-    // let app = getApp()
   }
 }
 </script>
 
-<style scoped>
-.userinfo {
+<style lang="less" scoped>
+@import '~@/utils/less/var.less';
+.container{
+  position: relative;
+  overflow: hidden;
+  width: 1080/@bs;
+  height: 100%;
+}
+.wrapper{
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 1080/@bs;
+  height: 290/@bs;
+}
+.tab{
+  position: relative;
   display: flex;
-  flex-direction: column;
-  align-items: center;
+  flex-direction: row;
+  justify-content: space-between;
+  margin-top: 30/@bs;
+  padding: 0 50/@bs 10/@bs;
+  height: 108/@bs;
+  &[data-active='0']{
+    .tab__item:nth-child(1){
+      color: #498a68;
+    }
+    &::after{
+      transform: translateX(50/@bs);
+    }
+  }
+  &[data-active='1']{
+    .tab__item:nth-child(2){
+      color: #498a68;
+    }
+    &::after{
+      transform: translateX(390/@bs);
+    }
+  }
+  &[data-active='2']{
+    .tab__item:nth-child(3){
+      color: #498a68;
+    }
+    &::after{
+      transform: translateX(730/@bs);
+    }
+  }
+  &__item{
+    width: 300/@bs;
+    overflow: hidden;
+    color: #848484;
+    text-align: center;
+    font-size: 48/@bs;
+    line-height: 108/@bs;
+    transition: all 0.3s ease;
+    &--active{
+      color: #498a68;
+    }
+  }
+  &-wrapper{
+    display: flex;
+    flex-direction: column;
+    box-sizing: border-box;
+    padding-top: 290/@bs;
+    height: 100%;
+  }
+  &::after{
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 300/@bs;
+    height: 100%;
+    height: 10/@bs;
+    border-radius: 10/@bs;
+    background-color: #498a68;
+    content: '';
+    transition: transform 0.3s ease;
+  }
 }
 
-.userinfo-avatar {
-  width: 128rpx;
-  height: 128rpx;
-  margin: 20rpx;
-  border-radius: 50%;
-}
 
-.userinfo-nickname {
-  color: #aaa;
+.top{
+  width: 1080/@bs;
+  height: 290/@bs;
 }
-
-.usermotto {
-  margin-top: 150px;
-}
-
-.form-control {
-  display: block;
-  padding: 0 12px;
-  margin-bottom: 5px;
-  border: 1px solid #ccc;
-}
-.all{
-  width:7.5rem;
-  height:1rem;
-  background-color:blue;
-}
-.all:after{
-  display:block;
-  content:'';
-  clear:both;
-}
-.left{
-  float:left;
-  width:3rem;
-  height:1rem;
-  background-color:red;
-}
-
-.right{
-  float:left;
-  width:4.5rem;
-  height:1rem;
-  background-color:green;
+.select{
+  position: absolute;
+  top: 240/@bs;
+  left: 50%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  box-sizing: border-box;
+  padding: 0 35/@bs;
+  height: 70/@bs;
+  border: 1px dashed #588122;
+  border-radius: 35/@bs;
+  background-color: #f0f2f3;
+  font-weight: bolder;
+  font-size: 30/@bs;
+  line-height: 70/@bs;
+  transform: translateX(-50%);
+  &__base{
+    margin: 0 16/@bs;
+    color: #000;
+  }
+  &__btn{
+    margin-left: 16/@bs;
+    padding: 0 16/@bs;
+    color: #3b6b08;
+    text-decoration: underline;
+  }
 }
 </style>

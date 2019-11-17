@@ -1,0 +1,15 @@
+@bs: 540/187.5px; //基础换算，基于设计稿是1080 * 1920
+
+@theme__green: #95d666;//主题绿色
+@theme__yellow: #fcff00;//主题绿色
+
+
+.lines(@lines){
+  display: -webkit-box;
+  overflow: hidden;
+  -webkit-box-orient: vertical;
+  text-overflow: -o-ellipsis-lastline;
+  text-overflow: ellipsis;
+
+  -webkit-line-clamp: @lines;
+}
