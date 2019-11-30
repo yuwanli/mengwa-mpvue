@@ -4,7 +4,15 @@
    </swiper-item> -->
    <swiper class="swiper" :current="activeIndex" @change="swiperChange" :indicator-dots="false">
       <swiper-item v-for="(item,index) in indexData" v-bind:key="item">
-        <mw-scroll :list-data="item.list" @scrolltolower="scrolltolower(index)"></mw-scroll>
+        <mw-scroll :can-scroll="canScroll" :list-data="item.list" :index="index" :init-flag="item.initFlag" @scrolltolower="scrolltolower(index)">
+          <template slot="noData" slot-scope="{index}">
+            <p class="no-data__title">{{noDataInfo[index].title}}</p>
+            <div class="no-data__btn" @click="noDataBtnClick(index)">
+              <img v-if="noDataInfo[index].icon" src="/static/images/index__add.png" class="no-data__btn__icon" alt="">
+              <p>{{noDataInfo[index].btn}}</p>
+            </div>
+          </template>
+        </mw-scroll>
       </swiper-item>
   </swiper>
 </template>
@@ -18,7 +26,8 @@ const mockData = [
     avatar: '/static/images/index__avatar.png',
     name: '小草莓外婆',
     liked: 0,
-    id: 1
+    id: 1,
+    status: 1
   },
   {
     img: '/static/images/index__demo2.png',
@@ -26,7 +35,8 @@ const mockData = [
     avatar: '/static/images/index__avatar.png',
     name: '小草莓外婆',
     liked: 0,
-    id: 1
+    id: 1,
+    status: 2
   },
   {
     img: '/static/images/index__demo1.png',
@@ -88,18 +98,39 @@ const mockData = [
 export default {
   data () {
     return {
+      test: 'testetst',
+      noDataInfo: [
+        {
+          title: '您还没有关注内容',
+          btn: '去首页查看',
+          icon: false
+        },
+        {
+          title: '该小区还没有闲置品',
+          btn: '分享我的闲置',
+          icon: true
+        },
+        {
+          title: '您还没有发布闲置品',
+          btn: '分享我的闲置',
+          icon: true
+        }
+      ],
       indexData: [
         {
           page: 1,
-          list: []
+          list: [],
+          initFlag: false
         },
         {
           page: 1,
-          list: []
+          list: [],
+          initFlag: false
         },
         {
           page: 1,
-          list: []
+          list: [],
+          initFlag: false
         }
       ]
     }
@@ -108,6 +139,10 @@ export default {
     activeIndex: {
       type: Number,
       default: 0
+    },
+    canScroll: {
+      type: Boolean,
+      default: false
     }
   },
   components: {
@@ -122,6 +157,10 @@ export default {
         setTimeout(() => {
           let list = this.indexData[index].list
           this.indexData[index].list = list.concat(mockData)
+          // this.indexData[index].list = []
+          if (!this.indexData[index].initFlag) {
+            this.indexData[index].initFlag = true
+          }
           resolve()
         }, 1000)
       })
@@ -133,13 +172,48 @@ export default {
       const index = event.target.current
       this.$emit('swiperChange', event.target.current)
       await this.getData(index)
+    },
+    noDataBtnClick (index) {
+      if (index === 0) {
+        this.$emit('swiperChange', 1)
+      } else {
+        wx.switchTab({
+          url: `/pages/publish/main`
+        })
+      }
     }
   }
 }
 </script>
 
 <style lang="less" scoped>
+@import '~@/utils/less/var.less';
 .swiper{
   flex: 1;
+}
+.no-data{
+  &__title{
+    color: #3b6b08;
+    font-size: 48/@bs;
+    line-height: 72/@bs;
+  }
+  &__btn{
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+    justify-content: center;
+    margin-top: 50/@bs;
+    width: 410/@bs;
+    height: 90/@bs;
+    border: 1px dashed #498a68;
+    border-radius: 10/@bs;
+    color: #3b6b08;
+    font-size: 36/@bs;
+    &__icon{
+      margin-right: 30/@bs;
+      width: 36/@bs;
+      height: 36/@bs;
+    }
+  }
 }
 </style>

@@ -18,7 +18,44 @@ export function formatTime (date) {
   return `${t1} ${t2}`
 }
 
+export const throttle = (fn, delay, mustRunDelay) => {
+  let timer = null
+  let starttime = +new Date()
+
+  return function () {
+    let context = this
+    let args = arguments
+    let curTime = +new Date()
+    clearTimeout(timer)
+    if (!starttime) {
+      starttime = curTime
+    }
+    if (curTime - starttime >= mustRunDelay) {
+      fn.apply(context, args)
+      starttime = curTime
+    } else {
+      timer = setTimeout(() => {
+        fn.apply(context, args)
+      }, delay)
+    }
+  }
+}
+
+export const debounce = (fn, delay) => {
+  let timer = null
+  return function () {
+    let context = this
+    let args = arguments
+    clearTimeout(timer)
+    timer = setTimeout(() => {
+      fn.apply(context, args)
+    }, delay)
+  }
+}
+
 export default {
   formatNumber,
-  formatTime
+  formatTime,
+  throttle,
+  debounce
 }

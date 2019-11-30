@@ -1,6 +1,10 @@
 <template>
   <div class="item">
-    <img mode="widthFix" class="item__img" :lazy-load="true" :src="itemData.img">
+    <div class="item__con">
+      <!-- <img mode="widthFix" class="item__img" :lazy-load="true" :src="itemData.img"> -->
+      <img mode="widthFix" class="item__img" :lazy-load="true" src="/static/images/index__love.png">
+      <div v-if="itemData.status" class="item__status">{{statusText[itemData.status]}}</div>
+    </div>
     <p class="item__title">{{itemData.title}}</p>
     <div class="item__wrapper">
       <img mode="aspectFill" :src="itemData.avatar" class="item__avatar">
@@ -18,7 +22,8 @@ export default {
         '/static/images/index__love.png',
         '/static/images/index__love--active.png'
       ],
-      active: false
+      active: false,
+      statusText: ['', '已下架', '被投诉异常']
     }
   },
   computed: {
@@ -56,9 +61,28 @@ export default {
   float: left;
   padding: 15/@bs 15/@bs 70/@bs;
   width: 495/@bs;
+  &__con{
+    position: relative;
+    overflow: hidden;
+    border-radius: 20/@bs;
+  }
+  &__status{
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: rgba(255,255,255,0.8);
+    color: #ff0000;
+    text-align: center;
+    font-size: 40/@bs;
+  }
   &__img{
+    display: block;
     width: 495/@bs;
-    border-radius: 10/@bs;
     background-color: #ccc;
   }
   &__title{

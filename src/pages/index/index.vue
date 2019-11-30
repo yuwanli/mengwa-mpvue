@@ -1,5 +1,12 @@
 <template>
-  <scroll-view class="container">
+  <scroll-view
+    class="container"
+    :scroll-y="true"
+    lower-threshold="0"
+    :scroll-into-view="test"
+    :style="{'height': clientHeight + 'px'}"
+    @scroll="scroll"
+  >
     <div class="wrapper">
       <img class="top" src="/static/images/index__top.png">
       <div class="select">
@@ -7,13 +14,21 @@
         <p class="select__btn">切换</p>
       </div>
     </div>
-    <div class="tab-wrapper">
+    <swiper class="swiper">
+      <swiper-item>
+        <div class="swiper__item" style="background-color:red"></div>
+      </swiper-item>
+      <swiper-item>
+        <div class="swiper__item" style="background-color:yellow"></div>
+      </swiper-item>
+    </swiper>
+    <div class="tab-wrapper" id="tab" :style="{'height': clientHeight+'px'}" @touchstart="touchstart">
       <div class="tab" :data-active="activeIndex">
-        <div class="tab__item" @click="tabClick(0)">我的关注</div>
+        <div class="tab__item" @click="tabClick(0)">我的关注{{canScroll}}</div>
         <div class="tab__item" @click="tabClick(1)">小区婴童闲置</div>
         <div class="tab__item" @click="tabClick(2)">我的闲置</div>
       </div>
-      <mw-swiper :active-index="activeIndex" @swiperChange="swiperChange"></mw-swiper>
+      <mw-swiper :active-index="activeIndex" @swiperChange="swiperChange" :can-scroll="canScroll"></mw-swiper>
       <!-- <swiper class="swiper" :current="active" @change="swiperChange" :indicator-dots="false">
         <mw-swiper-item :list-data="focusData"></mw-swiper-item>
         <mw-swiper-item :list-data="mainData"></mw-swiper-item>
@@ -26,6 +41,7 @@
 <script>
 import mwSwiper from '@/components/mw-swiper.vue'
 import base from '@/mixins/base.js'
+import {throttle} from '@/utils/index.js'
 
 export default {
   data () {
@@ -252,7 +268,11 @@ export default {
           liked: 1,
           id: 1
         }
-      ]
+      ],
+      canScroll: false,
+      clientHeight: 0,
+      tabTop: 0,
+      test: ''
     }
   },
 
@@ -263,34 +283,69 @@ export default {
   mixins: [base],
 
   methods: {
+    scroll: throttle(function (e) {
+      if (e.target.scrollTop >= this.tabTop - 10) {
+        this.canScroll = true
+        this.test = 'tab'
+      } else {
+        this.canScroll = false
+        this.test = ''
+      }
+    }, 200, 500),
+    scrolltoupper () {
+      this.canScroll = false
+    },
+    scrolltolower () {
+      console.log('aaa')
+      this.canScroll = true
+      // e.preventDefault()
+    },
     swiperChange (index) {
       this.activeIndex = index
     },
     tabClick (index) {
       this.activeIndex = index
-    },
-    scrolltolower () {
-      console.log('111')
     }
   },
 
   created () {
+    const res = wx.getSystemInfoSync()
+    this.clientHeight = res.windowHeight
+  },
+  mounted () {
+    const _this = this
+    wx.createSelectorQuery().select('#tab').boundingClientRect(function (rect) {
+      _this.tabTop = rect.top
+      console.log('111')
+    }).exec()
   }
 }
 </script>
 
 <style lang="less" scoped>
 @import '~@/utils/less/var.less';
+
 .container{
   position: relative;
   overflow: hidden;
   width: 1080/@bs;
-  height: 100%;
+  height: 550px;
+  // min-height: 100%;
+  ::-webkit-scrollbar {
+    width: 0;
+    height: 0;
+    color: transparent;
+  }
+}
+.swiper{
+  height: 240/@bs;
+  margin-top: 56/@bs;
+  &__item{
+    height: 100%;
+    background-color: yellowgreen;
+  }
 }
 .wrapper{
-  position: absolute;
-  top: 0;
-  left: 0;
   width: 1080/@bs;
   height: 290/@bs;
 }
@@ -341,9 +396,8 @@ export default {
   &-wrapper{
     display: flex;
     flex-direction: column;
-    box-sizing: border-box;
-    padding-top: 290/@bs;
-    height: 100%;
+    // box-sizing: border-box;
+    // padding-top: 290/@bs;
   }
   &::after{
     position: absolute;
@@ -392,4 +446,5 @@ export default {
     text-decoration: underline;
   }
 }
+
 </style>

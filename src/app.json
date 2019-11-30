@@ -1,7 +1,7 @@
 {
   "pages": [
+    "pages/publish/main",
     "pages/index/main",
-    "pages/logs/main",
     "pages/counter/main",
     "pages/user/main",
     "pages/add/main"
@@ -25,7 +25,7 @@
       "selectedIconPath": "static/tabs/home--active.png"
     }, {
       "text": "发布",
-      "pagePath": "pages/logs/main",
+      "pagePath": "pages/publish/main",
       "iconPath": "static/tabs/publish.png",
       "selectedIconPath": "static/tabs/publish--active.png"
     }, {
