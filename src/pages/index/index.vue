@@ -11,7 +11,7 @@
       <img class="top" src="/static/images/index__top.png">
       <div class="select">
         <p class="select__base">这里是小区名字</p>
-        <p class="select__btn">切换</p>
+        <p class="select__btn" @click="changeArea">切换</p>
       </div>
     </div>
     <swiper class="swiper">
@@ -24,7 +24,7 @@
     </swiper>
     <div class="tab-wrapper" id="tab" :style="{'height': clientHeight+'px'}" @touchstart="touchstart">
       <div class="tab" :data-active="activeIndex">
-        <div class="tab__item" @click="tabClick(0)">我的关注{{canScroll}}</div>
+        <div class="tab__item" @click="tabClick(0)">我的关注</div>
         <div class="tab__item" @click="tabClick(1)">小区婴童闲置</div>
         <div class="tab__item" @click="tabClick(2)">我的闲置</div>
       </div>
@@ -305,6 +305,11 @@ export default {
     },
     tabClick (index) {
       this.activeIndex = index
+    },
+    changeArea () {
+      wx.navigateTo({
+        url: `/pages/add/main`
+      })
     }
   },
 

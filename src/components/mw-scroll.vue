@@ -2,7 +2,7 @@
   <scroll-view class="scroll" lower-threshold="100" :enable-flex="true" :enable-back-to-top="true"  :scroll-y="canScroll" @scrolltolower="scrolltolower">
     <template v-if="initFlag && listData.length === 0">
       <div class="no-data">
-        <slot name="noData" :data="{'index':index,}"></slot>
+        <slot name="noData" :data="{'index':index}"></slot>
       </div>
     </template>
     <template v-else>

@@ -178,7 +178,7 @@ export default {
         this.$emit('swiperChange', 1)
       } else {
         wx.switchTab({
-          url: `/pages/publish/main`
+          url: `pages/publish/main`
         })
       }
     }

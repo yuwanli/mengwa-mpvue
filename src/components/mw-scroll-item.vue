@@ -1,5 +1,5 @@
 <template>
-  <div class="item">
+  <div class="item" @click="itemClick">
     <div class="item__con">
       <!-- <img mode="widthFix" class="item__img" :lazy-load="true" :src="itemData.img"> -->
       <img mode="widthFix" class="item__img" :lazy-load="true" src="/static/images/index__love.png">
@@ -50,6 +50,11 @@ export default {
   methods: {
     likeClick () {
       this.$emit('likeClick', this.itemData.liked)
+    },
+    itemClick () {
+      wx.navigateTo({
+        url: `/pages/detail/main`
+      })
     }
   }
 }

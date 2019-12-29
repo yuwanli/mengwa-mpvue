@@ -19,11 +19,13 @@
 	},
 	"miniprogramRoot": "dist/wx/",
 	"compileType": "miniprogram",
-	"appid": "wxc087ff83ac74a5be",
+	"appid": "wx68dce8880552f3da",
 	"projectname": "mengwa-mpvue",
 	"simulatorType": "wechat",
 	"simulatorPluginLibVersion": {},
-	"libVersion": "2.9.3",
+	"cloudfunctionRoot": "static/functions/",
+	"libVersion": "2.9.4",
+	"cloudfunctionTemplateRoot": "cloudfunctionTemplate",
 	"condition": {
 		"search": {
 			"current": -1,

@@ -1,6 +1,6 @@
 <template>
   <div :class="['popup','popup__'+popupType, (!showInCurrent || !show) && 'popup__hide']" :data-type="popupType" v-if="show || showInCurrent" @click="popupClick">
-      <div :class="['popup-content',(!showInCurrent || !show) && 'popup-content__hide']" @click.stop>
+      <div :class="['popup-content',(!showInCurrent || !show) && (scaleAni ? 'popup-content__hide--ani':'popup-content__hide')]" @click.stop>
         <slot></slot>
       </div>
   </div>
@@ -17,6 +17,7 @@ export default {
   },
   watch: {
     show: {
+      immediate: true,
       handler: function (val) {
         if (val) {
           // this.$nextTick(() => {
@@ -48,6 +49,10 @@ export default {
     popupType: {
       type: String,
       default: 'center'
+    },
+    scaleAni: {
+      type: Boolean,
+      default: true
     }
   },
   methods: {
@@ -66,13 +71,13 @@ export default {
 .popup{
     position: fixed;
     top: 0;
-    right: 0;
-    bottom: 0;
     left: 0;
-    z-index: 10000;
+    z-index: 99999999;
     display: flex;
     align-items: center;
     justify-content: center;
+    width: 100%;
+    height: 100%;
     background-color: rgba(0,0,0,0.8);
     transition: all 0.3s ease;
     &__top{
@@ -151,8 +156,13 @@ export default {
       .popup-content{
         opacity: 1;
         transition: all 0.3s ease;
+        transform: scale(1);
         &__hide{
           opacity: 0;
+          transform: scale(1);
+          &--ani{
+            transform: scale(0.3);
+          }
         }
       }
     }

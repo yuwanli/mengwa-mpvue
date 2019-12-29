@@ -13,3 +13,32 @@
 
   -webkit-line-clamp: @lines;
 }
+
+.commonBtn{
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  justify-content: center;
+  box-sizing: border-box;
+  height: 88/@bs;
+  border: 1px dashed #588122;
+  border-radius: 88/@bs;
+  background-color: #f0f2f3;
+  color: #498a68;
+  text-align: center;
+  font-weight: bold;
+  font-size: 36/@bs;
+}
+
+.layer{
+  position: relative;
+  z-index: 10;
+  &__img{
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: -1;
+    width: 100%;
+    height: 100%;
+  }
+}

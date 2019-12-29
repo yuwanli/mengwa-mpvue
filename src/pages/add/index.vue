@@ -1,6 +1,6 @@
 <template>
   <scroll-view class="container">
-    <img mode="aspectFit" class="base__top" src="/static/images/add__top.png" alt="">
+    <img mode="aspectFit" class="base__top" src="/static/images/base__top.png" alt="">
     <div class="logo">
       <img mode="aspectFit" class="logo__bg" src="/static/images/add__logo.png">
       <p class="logo__desc">小区里的母婴闲置平台</p>
@@ -28,22 +28,22 @@
       </div>
     </template>
     <p class="protocol">选择小区并进入<br>视为同意<span>《用户服务协议》</span></p>
-    <img mode="aspectFit" class="base__bottom" src="/static/images/add__bottom.png" alt="">
-    <popup @closePopup="ifFormPopup = false" :show="ifFormPopup" :default-close="true" popup-type="center" >
+    <img mode="aspectFit" class="base__bottom" src="/static/images/base__bottom.png" alt="">
+    <popup @closePopup="ifFormPopup = false" :show="ifFormPopup" :default-close="true" popup-type="center">
       <div class="form">
         <p class="form__title">添加我的小区</p>
         <input placeholder="请输入要添加的小区名称" class="form__input" type="text">
         <div class="form__btn">确定添加</div>
       </div>
     </popup>
-    <popup @closePopup="ifFormPopup = false" :show="ifFormPopup" :default-close="true" popup-type="center" >
+    <popup @closePopup="ifFormPopup = false" :show="ifFormPopup" :default-close="true" popup-type="center">
       <div class="form">
         <p class="form__title">添加我的小区</p>
         <input placeholder="请输入要添加的小区名称" class="form__input" type="text">
         <div class="form__btn">确定添加</div>
       </div>
     </popup>
-    <popup @closePopup="ifSuccessPopup = false" :show="ifSuccessPopup" :default-close="true" popup-type="center" >
+    <popup @closePopup="ifSuccessPopup = false" :show="ifSuccessPopup" :default-close="true" popup-type="center">
       <div class="success">
         <p class="success__title">添加成功</p>
         <p class="success__desc">请等待管理员审核</p>

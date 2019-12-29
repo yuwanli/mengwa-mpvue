@@ -1,10 +1,14 @@
 {
   "pages": [
-    "pages/publish/main",
     "pages/index/main",
-    "pages/counter/main",
+    "pages/user-list/main",
+    "pages/message-detail/main",
+    "pages/message-list/main",
     "pages/user/main",
-    "pages/add/main"
+    "pages/detail/main",
+    "pages/publish/main",
+    "pages/add/main",
+    "pages/counter/main"
   ],
   "window": {
     "backgroundTextStyle": "light",
